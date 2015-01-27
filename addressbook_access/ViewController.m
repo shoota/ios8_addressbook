@@ -11,6 +11,9 @@
 @interface ViewController ()
 
 - (IBAction)getAddress:(id)sender;
+@property (weak, nonatomic) IBOutlet UITextView *lastname;
+@property (weak, nonatomic) IBOutlet UITextView *firstName;
+@property (weak, nonatomic) IBOutlet UITextView *phone;
 @end
 
 @implementation ViewController
@@ -39,29 +42,7 @@
 
 /**
  ユーザ選択後の処理
- - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
- 
- NSString *firstName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
- NSString *lastName  = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
- 
- ABMultiValueRef phoneNumber = ABRecordCopyValue(person, kABPersonPhoneProperty);
- 
- NSString *phone=@"";
- if(ABMultiValueGetCount(phoneNumber)) {
- phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumber, 0));
- }
- 
- NSLog(@"%@", firstName);
- NSLog(@"%@", lastName);
- 
- NSLog(@"%@", phone);
- 
- 
- [peoplePicker dismissViewControllerAnimated:YES completion:nil];
- 
- return NO;
- }
- 
+ [note] iOS8でshouldContinueAfterSelectingPersonがdeprecated
  */
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person {
     
@@ -75,10 +56,9 @@
         phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumber, 0));
     }
     
-    NSLog(@"%@", firstName);
-    NSLog(@"%@", lastName);
-    
-    NSLog(@"%@", phone);
+    self.firstName.text = firstName;
+    self.lastname.text  = lastName;
+    self.phone.text     = phone;
     
     
     [peoplePicker dismissViewControllerAnimated:YES completion:nil];
